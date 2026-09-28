@@ -12,13 +12,14 @@
   <div class="shell">
     <aside class="sidebar">
       <a class="brand" href="#" aria-label="LaporPak">
-        <span class="brand-mark">LP</span>
-        <span><strong>LaporPak</strong><small>Meta Ads Monitor</small></span>
+        <span class="brand-mark"><i></i><i></i><i></i></span>
+        <span><strong>LaporPak</strong><small>AD INTELLIGENCE</small></span>
       </a>
 
       <nav aria-label="Navigasi utama">
-        <button class="nav-item active" type="button"><span>◫</span> Dashboard</button>
-        <button class="nav-item" type="button" id="focus-add"><span>＋</span> Tambah Domain</button>
+        <p class="nav-label">WORKSPACE</p>
+        <button class="nav-item active" type="button"><span>⌂</span> Overview</button>
+        <button class="nav-item" type="button" id="focus-add"><span>＋</span> Domain Monitor</button>
       </nav>
 
       <div class="sidebar-note">
@@ -30,24 +31,25 @@
     <main>
       <header class="topbar">
         <div>
-          <p class="eyebrow">OVERVIEW</p>
-          <h1>Dashboard Pemantauan</h1>
-          <p class="subheading">Pantau status iklan Meta berdasarkan domain, negara, dan jenis iklan.</p>
+          <div class="live-pill"><span></span> MONITORING WORKSPACE</div>
+          <h1>Iklan mana yang masih <em>berjalan?</em></h1>
+          <p class="subheading">Pantau keberadaan iklan Meta berdasarkan domain, negara, dan format kreatif—dalam satu layar.</p>
         </div>
         <button class="primary" id="open-modal" type="button">＋ Tambah Domain</button>
       </header>
 
       <section class="stats" aria-label="Ringkasan status">
-        <article><span>Total Domain</span><strong id="stat-total">0</strong><small>Domain terpantau</small></article>
-        <article><span>Iklan Aktif</span><strong id="stat-active">0</strong><small class="green">Status aktif</small></article>
-        <article><span>Tidak Ditemukan</span><strong id="stat-inactive">0</strong><small class="red">Perlu diperiksa</small></article>
-        <article><span>Belum Dicek</span><strong id="stat-pending">0</strong><small>Menunggu pengecekan</small></article>
+        <article class="stat-card total"><div class="stat-icon">◆</div><span>Total Domain</span><strong id="stat-total">0</strong><small>Target dalam watchlist</small></article>
+        <article class="stat-card active"><div class="stat-icon">↗</div><span>Iklan Aktif</span><strong id="stat-active">0</strong><small class="green">Sedang berjalan</small></article>
+        <article class="stat-card inactive"><div class="stat-icon">!</div><span>Tidak Ditemukan</span><strong id="stat-inactive">0</strong><small class="red">Perlu ditinjau</small></article>
+        <article class="stat-card pending"><div class="stat-icon">◷</div><span>Belum Dicek</span><strong id="stat-pending">0</strong><small>Menunggu pemeriksaan</small></article>
       </section>
 
       <section class="panel">
         <div class="panel-head">
           <div>
-            <h2>Daftar Domain</h2>
+            <div class="section-kicker">DOMAIN WATCHLIST</div>
+            <h2>Aktivitas iklan terbaru</h2>
             <p>Kelola target yang ingin dipantau melalui Meta Ad Library.</p>
           </div>
           <div class="filters">
