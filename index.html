@@ -3,33 +3,116 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#090b10">
-  <meta name="description" content="LaporPak — sistem pemantauan iklan Meta sedang dalam pengembangan.">
-  <title>LaporPak — Coming Soon</title>
-  <style>
-    :root{color-scheme:dark;--bg:#090b10;--panel:rgba(20,24,33,.74);--line:rgba(255,255,255,.12);--text:#f7f8fb;--muted:#9ca3af;--accent:#ff3b30}
-    *{box-sizing:border-box}html,body{min-height:100%}
-    body{margin:0;min-height:100vh;display:grid;place-items:center;overflow:hidden;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:radial-gradient(circle at 15% 15%,rgba(255,59,48,.16),transparent 30rem),radial-gradient(circle at 85% 85%,rgba(68,76,231,.12),transparent 34rem),var(--bg)}
-    body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(to bottom,#000,transparent 85%)}
-    main{position:relative;width:min(92vw,760px);padding:clamp(2rem,6vw,4.5rem);text-align:center;border:1px solid var(--line);border-radius:28px;background:var(--panel);box-shadow:0 30px 90px rgba(0,0,0,.42);backdrop-filter:blur(18px)}
-    .status{display:inline-flex;align-items:center;gap:.65rem;padding:.55rem .9rem;border:1px solid rgba(255,59,48,.28);border-radius:999px;color:#ffb4ae;background:rgba(255,59,48,.16);font-size:.78rem;font-weight:750;letter-spacing:.12em;text-transform:uppercase}
-    .status:before{content:"";width:.55rem;height:.55rem;border-radius:50%;background:var(--accent);box-shadow:0 0 0 .35rem rgba(255,59,48,.13);animation:pulse 1.8s infinite}
-    h1{margin:1.7rem 0 .7rem;font-size:clamp(3.4rem,12vw,7rem);line-height:.92;letter-spacing:-.075em}h1 span{color:var(--accent)}
-    .lead{max-width:560px;margin:0 auto;color:var(--muted);font-size:clamp(1rem,2vw,1.18rem);line-height:1.75}
-    .divider{width:72px;height:3px;margin:2rem auto;border:0;border-radius:99px;background:var(--accent)}
-    .foot{margin:0;color:#737b8c;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase}
-    @keyframes pulse{50%{opacity:.48;transform:scale(.86)}}
-    @media(max-width:520px){main{border-radius:22px}body:before{background-size:32px 32px}}
-    @media(prefers-reduced-motion:reduce){.status:before{animation:none}}
-  </style>
+  <meta name="theme-color" content="#090c12">
+  <meta name="description" content="LaporPak — dashboard pemantauan iklan Meta berdasarkan domain.">
+  <title>LaporPak — Meta Ads Monitor</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main>
-    <div class="status">Dalam Pengembangan</div>
-    <h1>Lapor<span>Pak</span></h1>
-    <p class="lead">Sistem pemantauan iklan Meta untuk melihat status iklan, lokasi, jenis creative, dan domain tujuan dalam satu dashboard.</p>
-    <hr class="divider">
-    <p class="foot">Coming Soon</p>
-  </main>
+  <div class="shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="LaporPak">
+        <span class="brand-mark">LP</span>
+        <span><strong>LaporPak</strong><small>Meta Ads Monitor</small></span>
+      </a>
+
+      <nav aria-label="Navigasi utama">
+        <button class="nav-item active" type="button"><span>◫</span> Dashboard</button>
+        <button class="nav-item" type="button" id="focus-add"><span>＋</span> Tambah Domain</button>
+      </nav>
+
+      <div class="sidebar-note">
+        <span class="dot"></span>
+        <div><strong>Monitor siap</strong><small>Data tersimpan di browser</small></div>
+      </div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">OVERVIEW</p>
+          <h1>Dashboard Pemantauan</h1>
+          <p class="subheading">Pantau status iklan Meta berdasarkan domain, negara, dan jenis iklan.</p>
+        </div>
+        <button class="primary" id="open-modal" type="button">＋ Tambah Domain</button>
+      </header>
+
+      <section class="stats" aria-label="Ringkasan status">
+        <article><span>Total Domain</span><strong id="stat-total">0</strong><small>Domain terpantau</small></article>
+        <article><span>Iklan Aktif</span><strong id="stat-active">0</strong><small class="green">Status aktif</small></article>
+        <article><span>Tidak Ditemukan</span><strong id="stat-inactive">0</strong><small class="red">Perlu diperiksa</small></article>
+        <article><span>Belum Dicek</span><strong id="stat-pending">0</strong><small>Menunggu pengecekan</small></article>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Daftar Domain</h2>
+            <p>Kelola target yang ingin dipantau melalui Meta Ad Library.</p>
+          </div>
+          <div class="filters">
+            <label class="search"><span>⌕</span><input id="search" type="search" placeholder="Cari domain atau label..."></label>
+            <select id="status-filter" aria-label="Filter status">
+              <option value="all">Semua status</option>
+              <option value="active">Aktif</option>
+              <option value="inactive">Tidak ditemukan</option>
+              <option value="pending">Belum dicek</option>
+              <option value="error">Gagal dicek</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Domain</th><th>Negara</th><th>Jenis Iklan</th><th>Status</th><th>Iklan</th><th>Terakhir Dicek</th><th></th></tr></thead>
+            <tbody id="domain-list"></tbody>
+          </table>
+          <div class="empty" id="empty-state" hidden>
+            <div class="empty-icon">◎</div>
+            <h3>Belum ada domain</h3>
+            <p>Tambahkan domain pertama untuk mulai membuat daftar pemantauan.</p>
+            <button class="primary" id="empty-add" type="button">Tambah Domain</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="domain-modal">
+    <form id="domain-form" method="dialog">
+      <div class="modal-head">
+        <div><p class="eyebrow">TARGET BARU</p><h2 id="modal-title">Tambah Domain</h2></div>
+        <button class="icon-button" id="close-modal" type="button" aria-label="Tutup">×</button>
+      </div>
+      <input id="record-id" type="hidden">
+      <label>Label <input id="label" required maxlength="60" placeholder="Contoh: SuperLiga Towing"></label>
+      <label>Domain <input id="domain" required inputmode="url" placeholder="contoh.com"></label>
+      <div class="form-grid">
+        <label>Negara
+          <select id="country" required>
+            <option value="ID">Indonesia</option><option value="MY">Malaysia</option><option value="SG">Singapura</option>
+            <option value="PH">Filipina</option><option value="TH">Thailand</option><option value="VN">Vietnam</option>
+            <option value="US">Amerika Serikat</option><option value="ALL">Semua Negara</option>
+          </select>
+        </label>
+        <label>Jenis Iklan
+          <select id="ad-type" required>
+            <option value="all">Semua Iklan</option><option value="image">Gambar</option><option value="video">Video</option>
+            <option value="carousel">Carousel</option><option value="lead">Lead Ads</option><option value="ctwa">Click to WhatsApp</option>
+          </select>
+        </label>
+      </div>
+      <label>Status awal
+        <select id="manual-status">
+          <option value="pending">Belum Dicek</option><option value="active">Aktif</option>
+          <option value="inactive">Tidak Ditemukan</option><option value="error">Gagal Dicek</option>
+        </select>
+      </label>
+      <div class="modal-actions"><button class="secondary" id="cancel-modal" type="button">Batal</button><button class="primary" type="submit">Simpan Domain</button></div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
 </body>
 </html>
